@@ -1,6 +1,6 @@
 all: binaries
 
-CFLAGS = -g -Wall -Werror
+CFLAGS = -O2 -g -Wall -Wno-unused-result -Werror
 
 parser.o: parser.y
 	bison --output=parser.c --defines=parser.h --report=state parser.y
@@ -8,7 +8,7 @@ parser.o: parser.y
 
 lexer.o: lexer.l parser.o
 	flex -olexer.c lexer.l
-	$(CC) -O2 -g -Wall -c lexer.c
+	$(CC) $(CFLAGS) -c lexer.c
 
 packetdrill-lib := \
          checksum.o code.o config.o hash.o hash_map.o ip_address.o ip_prefix.o \
@@ -34,7 +34,7 @@ packetdrill-lib := \
 packetdrill-objs := packetdrill.o $(packetdrill-lib)
 
 packetdrill: $(packetdrill-objs)
-	$(CC) -o packetdrill -g $(packetdrill-objs) $(packetdrill-ext-libs)
+	$(CC) $(CFLAGS) -o packetdrill $(packetdrill-objs) $(packetdrill-ext-libs)
 
 test-bins := checksum_test packet_parser_test packet_to_string_test
 tests: $(test-bins)

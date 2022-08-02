@@ -234,7 +234,7 @@ static void bring_up_device(struct local_netdev *netdev)
 {
 	struct ifreq ifr;
 	memset(&ifr, 0, sizeof(ifr));
-	strncpy(ifr.ifr_name, netdev->name, IFNAMSIZ);
+	strncpy(ifr.ifr_name, netdev->name, IFNAMSIZ - 1);
 	if (ioctl(netdev->control_fd, SIOCGIFFLAGS, &ifr) < 0)
 		die_perror("SIOCGIFFLAGS");
 	ifr.ifr_flags |= IFF_UP | IFF_RUNNING;
